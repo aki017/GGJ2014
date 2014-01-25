@@ -9,6 +9,8 @@ public class Player : MonoBehaviour {
 	private float ry = 0;
 	private float r = 0;
 	private LifeBar life;
+	private GameObject body;
+	private GameObject face;
 	public GameObject LifePrefab;
 
 	// On Editor
@@ -19,23 +21,26 @@ public class Player : MonoBehaviour {
 		var obj = Instantiate(LifePrefab) as GameObject;
 		obj.transform.parent = this.transform;
 		life = obj.AddComponent<LifeBar>();
+		body = transform.FindChild("Body").gameObject;
+		face = transform.FindChild("Face").gameObject;
 	}
 
 	// Use this for initialization
 	void Start () {
 		var i = (name == "1") ? XboxInput.i : KeyboardInput.i;
-		i.RegistorUp(MoveUp);
-		i.RegistorDown(MoveDown);
-		i.RegistorLeft(MoveLeft);
-		i.RegistorRight(MoveRight);	
-		i.RegistorSubUp(RotateUp);
-		i.RegistorSubDown(RotateDown);
-		i.RegistorSubLeft(RotateLeft);
-		i.RegistorSubRight(RotateRight);	
+		i.Registor(InputInterface.Type.UP,MoveUp);
+		i.Registor(InputInterface.Type.DOWN,MoveDown);
+		i.Registor(InputInterface.Type.LEFT,MoveLeft);
+		i.Registor(InputInterface.Type.RIGHT,MoveRight);
+		i.Registor(InputInterface.Type.SUBUP,RotateUp);
+		i.Registor(InputInterface.Type.SUBDOWN,RotateDown);
+		i.Registor(InputInterface.Type.SUBLEFT,RotateLeft);
+		i.Registor(InputInterface.Type.SUBRIGHT,RotateRight);
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		face.transform.eulerAngles = new Vector3(0,0,Mathf.Sin(Time.fixedTime*10)*10);
 		Move();
 		RotateTarget();
 	}
@@ -54,6 +59,7 @@ public class Player : MonoBehaviour {
 			if(Mathf.Abs(before - r) > 0.5)r = target;
 
 			FireBullet();
+			body.transform.eulerAngles = new Vector3(0,0,-r*Mathf.Rad2Deg);
 		}
 		rx = 0;
 		ry = 0;
@@ -65,7 +71,6 @@ public class Player : MonoBehaviour {
 		}
 	}
 	private void HitBullet() {
-		Debug.Log (life);
 		life.Life = life.Life - 1;
 	}
 	private void RotateUp(float v){ ry += v; }

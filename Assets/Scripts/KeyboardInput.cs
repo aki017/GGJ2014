@@ -8,14 +8,14 @@ public class KeyboardInput : MonoBehaviour {
 	void Awake() {
 		i = new KeyBoardInterface();
 		inputs = new Dictionary<KeyCode, Action<float>>(){};
-		inputs.Add (KeyCode.W, i.FireUp);
-		inputs.Add (KeyCode.A, i.FireLeft);
-		inputs.Add (KeyCode.S, i.FireDown);
-		inputs.Add (KeyCode.D, i.FireRight);
-		inputs.Add (KeyCode.UpArrow, i.FireSubUp);
-		inputs.Add (KeyCode.DownArrow, i.FireSubDown);
-		inputs.Add (KeyCode.LeftArrow, i.FireSubLeft);
-		inputs.Add (KeyCode.RightArrow, i.FireSubRight);
+		inputs.Add (KeyCode.W, i.Fire(InputInterface.Type.UP));
+		inputs.Add (KeyCode.A, i.Fire(InputInterface.Type.LEFT));
+		inputs.Add (KeyCode.S, i.Fire(InputInterface.Type.DOWN));
+		inputs.Add (KeyCode.D, i.Fire(InputInterface.Type.RIGHT));
+		inputs.Add (KeyCode.UpArrow, i.Fire(InputInterface.Type.SUBUP));
+		inputs.Add (KeyCode.DownArrow, i.Fire(InputInterface.Type.SUBDOWN));
+		inputs.Add (KeyCode.LeftArrow, i.Fire(InputInterface.Type.SUBLEFT));
+		inputs.Add (KeyCode.RightArrow, i.Fire(InputInterface.Type.SUBRIGHT));
 	}
 
 	public static InputInterface i;

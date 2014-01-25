@@ -2,55 +2,32 @@
 using System;
 
 public abstract class InputInterface{
-	private List<Action<float>> ups = new List<Action<float>>();
-	private List<Action<float>> downs = new List<Action<float>>();
-	private List<Action<float>> lefts = new List<Action<float>>();
-	private List<Action<float>> rights = new List<Action<float>>();
-	private List<Action<float>> subups = new List<Action<float>>();
-	private List<Action<float>> subdowns = new List<Action<float>>();
-	private List<Action<float>> sublefts = new List<Action<float>>();
-	private List<Action<float>> subrights = new List<Action<float>>();
+	public enum Type{
+		UP,DOWN,LEFT,RIGHT,
+		SUBUP,SUBDOWN,SUBLEFT,SUBRIGHT,
+	}
+	private Dictionary<Type, Action<float>> actions = new Dictionary<Type, Action<float>>();
 
 	void Init(){
 	}
 
-	public void RegistorUp(Action<float> action){
-		ups.Add(action);
+	public Action<Action<float>> Registor(Type t) {
+		return (f)=> Registor (t, f);
 	}
-	public void RegistorDown(Action<float> action){
-		downs.Add(action);
-	}
-	public void RegistorLeft(Action<float> action){
-		lefts.Add(action);
-	}
-	public void RegistorRight(Action<float> action){
-		rights.Add(action);
-	}
-	public void RegistorSubUp(Action<float> action){
-		subups.Add(action);
-	}
-	public void RegistorSubDown(Action<float> action){
-		subdowns.Add(action);
-	}
-	public void RegistorSubLeft(Action<float> action){
-		sublefts.Add(action);
-	}
-	public void RegistorSubRight(Action<float> action){
-		subrights.Add(action);
-	}
-
-	private void fireall(IList<Action<float>> l, float v){
-		foreach(var a in l){
-			a(v);
+	public void Registor(Type t, Action<float> a) {
+		if (!actions.ContainsKey(t)){
+			actions[t] = a;
+		}else{
+			actions[t] += a;
 		}
 	}
 
-	public void FireUp(float v = 1.0f){ fireall (ups,v); }
-	public void FireDown(float v = 1.0f){ fireall (downs,v); }
-	public void FireLeft(float v = 1.0f){ fireall (lefts,v); }
-	public void FireRight(float v = 1.0f){ fireall (rights,v); }
-	public void FireSubUp(float v = 1.0f){ fireall (subups,v); }
-	public void FireSubDown(float v = 1.0f){ fireall (subdowns,v); }
-	public void FireSubLeft(float v = 1.0f){ fireall (sublefts,v); }
-	public void FireSubRight(float v = 1.0f){ fireall (subrights,v); }
+	public Action<float> Fire(Type type) {
+		return (f)=> Fire (type, f);
+	}
+	public void Fire(Type type, float v){
+		if(actions.ContainsKey(type)) {
+			actions[type](v);
+		}
+	}
 }

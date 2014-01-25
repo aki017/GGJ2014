@@ -8,10 +8,6 @@ public class XboxInput : MonoBehaviour {
 	void Awake() {
 		i = new KeyBoardInterface();
 		inputs = new Dictionary<KeyCode, Action<float>>(){};
-		inputs.Add (KeyCode.JoystickButton16, i.FireUp);
-		inputs.Add (KeyCode.JoystickButton17, i.FireLeft);
-		inputs.Add (KeyCode.JoystickButton18, i.FireDown);
-		inputs.Add (KeyCode.JoystickButton19, i.FireRight);
 	}
 	
 	public static InputInterface i;
@@ -24,36 +20,36 @@ public class XboxInput : MonoBehaviour {
 		var x = Input.GetAxis("Horizontal");
 		if ( x != 0 ){
 			if(x> 0) {
-				i.FireRight(Mathf.Abs(x));
+				i.Fire(InputInterface.Type.RIGHT, Mathf.Abs(x));
 			}else{
-				i.FireLeft(Mathf.Abs (x));
+				i.Fire(InputInterface.Type.LEFT, Mathf.Abs (x));
 			}
 		}
 
 		var y = Input.GetAxis("Vertical");
 		if ( y != 0 ){
 			if(y> 0) {
-				i.FireUp(Mathf.Abs(y));
+				i.Fire(InputInterface.Type.UP, Mathf.Abs(y));
 			}else{
-				i.FireDown(Mathf.Abs (y));
+				i.Fire(InputInterface.Type.DOWN, Mathf.Abs (y));
 			}
 		}
 		
 		var rx = Input.GetAxis("Horizontal 2");
 		if ( rx != 0 ){
 			if(rx> 0) {
-				i.FireSubRight(Mathf.Abs(rx));
+				i.Fire(InputInterface.Type.SUBRIGHT, Mathf.Abs(rx));
 			}else{
-				i.FireSubLeft(Mathf.Abs (rx));
+				i.Fire(InputInterface.Type.SUBLEFT, Mathf.Abs (rx));
 			}
 		}
 
 		var ry = Input.GetAxis("Vertical 2");
 		if ( ry != 0 ){
 			if(ry< 0) {
-				i.FireSubUp(Mathf.Abs(ry));
+				i.Fire(InputInterface.Type.SUBUP, Mathf.Abs(ry));
 			}else{
-				i.FireSubDown(Mathf.Abs (ry));
+				i.Fire(InputInterface.Type.SUBDOWN, Mathf.Abs (ry));
 			}
 		}
 
