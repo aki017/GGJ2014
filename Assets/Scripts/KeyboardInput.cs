@@ -12,6 +12,7 @@ public class KeyboardInput : MonoBehaviour {
 		inputs.Add (KeyCode.A, i.FireLeft);
 		inputs.Add (KeyCode.S, i.FireDown);
 		inputs.Add (KeyCode.D, i.FireRight);
+		inputs.Add (KeyCode.Q, i.FireBullet);
 	}
 
 	public static InputInterface i;

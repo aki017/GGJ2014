@@ -37,4 +37,5 @@ public abstract class InputInterface{
 	public void FireDown(float v = 1.0f){ fireall (downs,v); }
 	public void FireLeft(float v = 1.0f){ fireall (lefts,v); }
 	public void FireRight(float v = 1.0f){ fireall (rights,v); }
+	public void FireBullet(float v = 1.0f){ fireall (bullets,v); }
 }
