@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\GameCamera.cs" />
+     <Compile Include="Assets\LifeBar.cs" />
      <Compile Include="Assets\Player.cs" />
      <Compile Include="Assets\Scripts\InputInterface.cs" />
      <Compile Include="Assets\Scripts\KeyboardInput.cs" />
