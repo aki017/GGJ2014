@@ -7,7 +7,7 @@ public class Player : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		var i = KeyboardInput.i;
+		var i = (name == "1") ? XboxInput.i : KeyboardInput.i;
 		i.RegistorUp(MoveUp);
 		i.RegistorDown(MoveDown);
 		i.RegistorLeft(MoveLeft);
@@ -25,8 +25,8 @@ public class Player : MonoBehaviour {
 		dy = 0;
 	}
 
-	private void MoveUp(){ dy += 1.0f; }
-	private void MoveDown(){ dy -= 1.0f; }
-	private void MoveLeft(){ dx -= 1.0f; }
-	private void MoveRight(){ dx += 1.0f; }
+	private void MoveUp(float v){ dy += v; }
+	private void MoveDown(float v){ dy -= v; }
+	private void MoveLeft(float v){ dx -= v; }
+	private void MoveRight(float v){ dx += v; }
 }

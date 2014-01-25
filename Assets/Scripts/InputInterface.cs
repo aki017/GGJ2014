@@ -2,39 +2,39 @@
 using System;
 
 public abstract class InputInterface{
-	private List<Action> ups = new List<Action>();
-	private List<Action> downs = new List<Action>();
-	private List<Action> lefts = new List<Action>();
-	private List<Action> rights = new List<Action>();
-	private List<Action> bullets = new List<Action>();
+	private List<Action<float>> ups = new List<Action<float>>();
+	private List<Action<float>> downs = new List<Action<float>>();
+	private List<Action<float>> lefts = new List<Action<float>>();
+	private List<Action<float>> rights = new List<Action<float>>();
+	private List<Action<float>> bullets = new List<Action<float>>();
 
 	void Init(){
 	}
 
-	public void RegistorUp(Action action){
+	public void RegistorUp(Action<float> action){
 		ups.Add(action);
 	}
-	public void RegistorDown(Action action){
+	public void RegistorDown(Action<float> action){
 		downs.Add(action);
 	}
-    public void RegistorLeft(Action action){
+	public void RegistorLeft(Action<float> action){
 		lefts.Add(action);
 	}
-	public void RegistorRight(Action action){
+	public void RegistorRight(Action<float> action){
 		rights.Add(action);
 	}
-	public void RegistorBullet(Action action){
+	public void RegistorBullet(Action<float> action){
 		bullets.Add(action);
 	}
 
-	private void fireall(IList<Action> l){
+	private void fireall(IList<Action<float>> l, float v){
 		foreach(var a in l){
-			a();
+			a(v);
 		}
 	}
 
-	public void FireUp(){ fireall (ups); }
-	public void FireDown(){ fireall (downs); }
-	public void FireLeft(){ fireall (lefts); }
-	public void FireRight(){ fireall (rights); }
+	public void FireUp(float v = 1.0f){ fireall (ups,v); }
+	public void FireDown(float v = 1.0f){ fireall (downs,v); }
+	public void FireLeft(float v = 1.0f){ fireall (lefts,v); }
+	public void FireRight(float v = 1.0f){ fireall (rights,v); }
 }
