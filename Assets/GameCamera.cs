@@ -26,7 +26,7 @@ public class GameCamera : MonoBehaviour {
 		}
 		var zoom_w= -1*(max_x - min_x)/4*1.732f;
 		var zoom_h = -1*(max_y - min_y +300)/4*1.732f;
-		var zoom = Mathf.Min(zoom_h,zoom_w, -200f);
+		var zoom = Mathf.Min(zoom_h,zoom_w, -400f);
 
 		transform.position = new Vector3(
 			(max_x + min_x) / 2,

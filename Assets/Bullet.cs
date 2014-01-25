@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Bullet : MonoBehaviour {
-	private float dx = 20;
+	private float dx = 0;
 	private float dy = 0;
 	private Vector3 dv;
 
@@ -14,6 +14,8 @@ public class Bullet : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		dv = new Vector3(dx,dy, 0);
+		transform.Translate(dv*4);
+
 	}
 	
 	// Update is called once per frame

@@ -8,12 +8,17 @@ public class Player : MonoBehaviour {
 	private float rx = 0;
 	private float ry = 0;
 	private float r = 0;
+	private LifeBar life;
+	public GameObject LifePrefab;
 
 	// On Editor
 	public GameObject bulletPrefab = null;
 	public GameObject bulletsField = null;
 
 	void Awake() {
+		var obj = Instantiate(LifePrefab) as GameObject;
+		obj.transform.parent = this.transform;
+		life = obj.AddComponent<LifeBar>();
 	}
 
 	// Use this for initialization
@@ -54,6 +59,15 @@ public class Player : MonoBehaviour {
 		ry = 0;
 	}
 
+	void OnTriggerEnter2D(Collider2D other){
+		if(other.tag == "Bullet") {
+			HitBullet();
+		}
+	}
+	private void HitBullet() {
+		Debug.Log (life);
+		life.Life = life.Life - 1;
+	}
 	private void RotateUp(float v){ ry += v; }
 	private void RotateDown(float v){ ry -= v; }
 	private void RotateLeft(float v){ rx -= v; }
@@ -64,8 +78,14 @@ public class Player : MonoBehaviour {
 	private void MoveLeft(float v){ dx -= v; }
 	private void MoveRight(float v){ dx += v; }
 
+
+	private byte bulletFlag = 0;
 	private void FireBullet()
 	{
+		unchecked{
+			bulletFlag += 1;
+		}
+		if(bulletFlag % 8 != 0) return;
 		var bulletObj = (GameObject)Instantiate( bulletPrefab, transform.position, transform.rotation );
 		bulletObj.transform.parent = bulletsField.transform;
 		var bullet = bulletObj.GetComponent<Bullet>();
