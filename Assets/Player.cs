@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class Player : MonoBehaviour {
+	public const float SPEED = 10f;
 	private float dx;
 	private float dy;
 
@@ -20,7 +21,7 @@ public class Player : MonoBehaviour {
 	}
 
 	void Move () {
-		transform.Translate(new Vector3(dx*10,dy*10,0));
+		transform.Translate(new Vector3(dx*SPEED,dy*SPEED,0));
 		dx = 0;
 		dy = 0;
 	}
