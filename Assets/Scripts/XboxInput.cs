@@ -21,7 +21,6 @@ public class XboxInput : MonoBehaviour {
 				k.Value(1.0f);
 			}
 		}
-		
 		var x = Input.GetAxis("Horizontal");
 		if ( x != 0 ){
 			if(x> 0) {
@@ -39,5 +38,24 @@ public class XboxInput : MonoBehaviour {
 				i.FireDown(Mathf.Abs (y));
 			}
 		}
+		
+		var rx = Input.GetAxis("Horizontal 2");
+		if ( rx != 0 ){
+			if(rx> 0) {
+				i.FireSubRight(Mathf.Abs(rx));
+			}else{
+				i.FireSubLeft(Mathf.Abs (rx));
+			}
+		}
+
+		var ry = Input.GetAxis("Vertical 2");
+		if ( ry != 0 ){
+			if(ry< 0) {
+				i.FireSubUp(Mathf.Abs(ry));
+			}else{
+				i.FireSubDown(Mathf.Abs (ry));
+			}
+		}
+
 	}
 }
