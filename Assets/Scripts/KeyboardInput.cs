@@ -17,7 +17,7 @@ public class KeyboardInput : MonoBehaviour {
 	public static InputInterface i;
 	void Update () {
 		foreach(var k in inputs){
-			if(Input.GetKeyDown(k.Key)) {
+			if(Input.GetKey(k.Key)) {
 				k.Value();
 			}
 		}
