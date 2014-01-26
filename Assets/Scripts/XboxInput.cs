@@ -8,12 +8,32 @@ public class XboxInput : MonoBehaviour {
 	void Awake() {
 		i = new KeyBoardInterface();
 		inputs = new Dictionary<KeyCode, Action<float>>(){};
+		inputs.Add(KeyCode.JoystickButton0, i.Fire(InputInterface.Type.CHANGE));
+		inputs.Add(KeyCode.JoystickButton1, i.Fire(InputInterface.Type.CHANGE));
+		inputs.Add(KeyCode.JoystickButton2, i.Fire(InputInterface.Type.CHANGE));
+		inputs.Add(KeyCode.JoystickButton3, i.Fire(InputInterface.Type.CHANGE));
+		inputs.Add(KeyCode.JoystickButton4, i.Fire(InputInterface.Type.CHANGE));
+		inputs.Add(KeyCode.JoystickButton5, i.Fire(InputInterface.Type.CHANGE));
+		inputs.Add(KeyCode.JoystickButton6, i.Fire(InputInterface.Type.CHANGE));
+		inputs.Add(KeyCode.JoystickButton7, i.Fire(InputInterface.Type.CHANGE));
+		inputs.Add(KeyCode.JoystickButton8, i.Fire(InputInterface.Type.CHANGE));
+		inputs.Add(KeyCode.JoystickButton9, i.Fire(InputInterface.Type.CHANGE));
+		inputs.Add(KeyCode.JoystickButton10, i.Fire(InputInterface.Type.CHANGE));
+		inputs.Add(KeyCode.JoystickButton11, i.Fire(InputInterface.Type.CHANGE));
+		inputs.Add(KeyCode.JoystickButton12, i.Fire(InputInterface.Type.CHANGE));
+		inputs.Add(KeyCode.JoystickButton13, i.Fire(InputInterface.Type.CHANGE));
+		inputs.Add(KeyCode.JoystickButton14, i.Fire(InputInterface.Type.CHANGE));
+		inputs.Add(KeyCode.JoystickButton15, i.Fire(InputInterface.Type.CHANGE));
+		inputs.Add(KeyCode.JoystickButton16, i.Fire(InputInterface.Type.CHANGE));
+		inputs.Add(KeyCode.JoystickButton17, i.Fire(InputInterface.Type.CHANGE));
+		inputs.Add(KeyCode.JoystickButton18, i.Fire(InputInterface.Type.CHANGE));
+		inputs.Add(KeyCode.JoystickButton19, i.Fire(InputInterface.Type.CHANGE));
 	}
 	
 	public static InputInterface i;
 	void Update () {
 		foreach(var k in inputs){
-			if(Input.GetKey(k.Key)) {
+			if(Input.GetKeyDown(k.Key)) {
 				k.Value(1.0f);
 			}
 		}
