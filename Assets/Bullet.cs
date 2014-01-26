@@ -49,7 +49,7 @@ public class Bullet : MonoBehaviour {
 		var y = transform.position.y;
 		return x > 0
 			&& y > 0
-				&& x < 1024*3
-				&& y < 768*3;
+				&& x < 102.4*3
+				&& y < 76.8*3;
 	}
 }

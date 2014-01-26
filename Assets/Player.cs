@@ -14,12 +14,9 @@ public class Player : MonoBehaviour {
 	private GameObject body_white;
 	private GameObject face;
 	private Bullet.BulletType type = Bullet.BulletType.BLACK;
-	public GameObject LifePrefab;
 
 	void Awake() {
-		var obj = Instantiate(LifePrefab) as GameObject;
-		obj.transform.parent = this.transform;
-		life = obj.AddComponent<LifeBar>();
+		life = transform.FindChild("LifeCircle").GetComponent<LifeBar>();
 		body = transform.FindChild("Body").gameObject;
 		body_black = body.transform.FindChild("BodyBlack").gameObject;
 		body_white = body.transform.FindChild("BodyWhite").gameObject;
