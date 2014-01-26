@@ -42,15 +42,15 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		face.transform.eulerAngles = new Vector3(0,0,-dx*10);
-		Move();
+		face.transform.eulerAngles = new Vector3(0,0,-rigidbody2D.velocity.x);
+		AddForce();
 		RotateTarget();
 	}
 
-	void Move () {
-		transform.Translate(new Vector3(dx*SPEED,dy*SPEED,0));
-		dx = dx/1.2f;
-		dy = dy/1.2f;
+	void AddForce () {
+		rigidbody2D.AddForce(new Vector2(dx,dy)*100*SPEED);
+		dx = 0;
+		dy = 0;
 	}
 
 	void RotateTarget() {
@@ -61,7 +61,7 @@ public class Player : MonoBehaviour {
 			if(Mathf.Abs(before - r) > 0.5)r = target;
 
 			FireBullet();
-			body.transform.eulerAngles = new Vector3(0,0,-r*Mathf.Rad2Deg);
+			transform.eulerAngles = new Vector3(0,0,-r*Mathf.Rad2Deg);
 		}
 		rx = 0;
 		ry = 0;
@@ -102,10 +102,10 @@ public class Player : MonoBehaviour {
 		}
 		if(bulletFlag % 8 != 0) return;
 		GameObjectPool pool = GameObjectPool.GetPool(type==Bullet.BulletType.BLACK ? "SadBullet" : "HappyBullet");
-		var force = new Vector3(SPEED*15 * Mathf.Sin(r), SPEED*15 * Mathf.Cos(r), 0);
+		var force = new Vector3(SPEED*1.5f * Mathf.Sin(r), SPEED*1.5f * Mathf.Cos(r), 0);
 		GameObject instance = pool.GetInstance(transform.position + force * 5);
+		instance.rigidbody2D.velocity = force*30;
 		var bullet = instance.GetComponent<Bullet>();
-		bullet.Force = force;
 		bullet.type = type;
 	}
 }

@@ -6,14 +6,12 @@ public class Bullet : MonoBehaviour {
 		BLACK,WHITE
 	}
 
-	public Vector3 Force;
 	public BulletType type = BulletType.BLACK;
 	public GameObject HitEffect;
 	private GameObjectPool _pool;
 
 	// Update is called once per frame
 	void Update () {
-		transform.Translate(Force);
 		if (!inStage() && renderer.enabled)
 		{
 			_pool.ReleaseInstance(gameObject);
@@ -27,12 +25,16 @@ public class Bullet : MonoBehaviour {
 		pool.GetInstance(transform.position);
 	}
 
+	void Erase() {
+		_pool.ReleaseInstance(gameObject);
+	}
+
 	
 
 	void OnPoolCreate(GameObjectPool pool)
 	{
 		_pool = pool;
-		
+
 		renderer.enabled = true;
 	}
 	
