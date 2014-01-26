@@ -16,6 +16,7 @@ public class KeyboardInput : MonoBehaviour {
 		inputs.Add (KeyCode.DownArrow, i.Fire(InputInterface.Type.SUBDOWN));
 		inputs.Add (KeyCode.LeftArrow, i.Fire(InputInterface.Type.SUBLEFT));
 		inputs.Add (KeyCode.RightArrow, i.Fire(InputInterface.Type.SUBRIGHT));
+
 	}
 
 	public static InputInterface i;
@@ -24,6 +25,9 @@ public class KeyboardInput : MonoBehaviour {
 			if(Input.GetKey(k.Key)) {
 				k.Value(1.0f);
 			}
+		}
+		if (Input.GetKeyDown(KeyCode.Space)) {
+			i.Fire(InputInterface.Type.CHANGE, 1.0f);
 		}
 	}
 }

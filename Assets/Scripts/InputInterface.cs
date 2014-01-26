@@ -5,6 +5,7 @@ public abstract class InputInterface{
 	public enum Type{
 		UP,DOWN,LEFT,RIGHT,
 		SUBUP,SUBDOWN,SUBLEFT,SUBRIGHT,
+		CHANGE
 	}
 	private Dictionary<Type, Action<float>> actions = new Dictionary<Type, Action<float>>();
 

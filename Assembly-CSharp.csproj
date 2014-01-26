@@ -48,7 +48,9 @@
   <ItemGroup>
      <Compile Include="Assets\BGMService.cs" />
      <Compile Include="Assets\Bullet.cs" />
+     <Compile Include="Assets\EffectPool.cs" />
      <Compile Include="Assets\GameCamera.cs" />
+     <Compile Include="Assets\GameObjectPool.cs" />
      <Compile Include="Assets\LifeBar.cs" />
      <Compile Include="Assets\Player.cs" />
      <Compile Include="Assets\Scripts\InputInterface.cs" />

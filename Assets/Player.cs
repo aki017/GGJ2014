@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
-	public const float SPEED = 10f;
+	public const float SPEED = 1.0f;
 	private float dx = 0;
 	private float dy = 0;
 	private float rx = 0;
@@ -10,11 +10,15 @@ public class Player : MonoBehaviour {
 	private float r = 0;
 	private LifeBar life;
 	private GameObject body;
+	private GameObject body_black;
+	private GameObject body_white;
 	private GameObject face;
+	private Bullet.BulletType type = Bullet.BulletType.BLACK;
 	public GameObject LifePrefab;
 
 	// On Editor
-	public GameObject bulletPrefab = null;
+	public GameObject bulletPrefab_black = null;
+	public GameObject bulletPrefab_white = null;
 	public GameObject bulletsField = null;
 
 	void Awake() {
@@ -22,6 +26,8 @@ public class Player : MonoBehaviour {
 		obj.transform.parent = this.transform;
 		life = obj.AddComponent<LifeBar>();
 		body = transform.FindChild("Body").gameObject;
+		body_black = body.transform.FindChild("BodyBlack").gameObject;
+		body_white = body.transform.FindChild("BodyWhite").gameObject;
 		face = transform.FindChild("Face").gameObject;
 	}
 
@@ -36,19 +42,20 @@ public class Player : MonoBehaviour {
 		i.Registor(InputInterface.Type.SUBDOWN,RotateDown);
 		i.Registor(InputInterface.Type.SUBLEFT,RotateLeft);
 		i.Registor(InputInterface.Type.SUBRIGHT,RotateRight);
+		i.Registor(InputInterface.Type.CHANGE, ChangeType);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		face.transform.eulerAngles = new Vector3(0,0,Mathf.Sin(Time.fixedTime*10)*10);
+		face.transform.eulerAngles = new Vector3(0,0,-dx*10);
 		Move();
 		RotateTarget();
 	}
 
 	void Move () {
 		transform.Translate(new Vector3(dx*SPEED,dy*SPEED,0));
-		dx = 0;
-		dy = 0;
+		dx = dx/1.2f;
+		dy = dy/1.2f;
 	}
 
 	void RotateTarget() {
@@ -67,6 +74,7 @@ public class Player : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other){
 		if(other.tag == "Bullet") {
+			other.gameObject.SendMessage("Hit");
 			HitBullet();
 		}
 	}
@@ -83,6 +91,13 @@ public class Player : MonoBehaviour {
 	private void MoveLeft(float v){ dx -= v; }
 	private void MoveRight(float v){ dx += v; }
 
+	private void ChangeType(float v){
+		type = type==Bullet.BulletType.BLACK ? Bullet.BulletType.WHITE : Bullet.BulletType.BLACK;
+		var flag = type == Bullet.BulletType.BLACK;
+		body_black.SetActive(flag);
+		body_white.SetActive(!flag);
+	}
+
 
 	private byte bulletFlag = 0;
 	private void FireBullet()
@@ -91,9 +106,11 @@ public class Player : MonoBehaviour {
 			bulletFlag += 1;
 		}
 		if(bulletFlag % 8 != 0) return;
-		var bulletObj = (GameObject)Instantiate( bulletPrefab, transform.position, transform.rotation );
-		bulletObj.transform.parent = bulletsField.transform;
-		var bullet = bulletObj.GetComponent<Bullet>();
-		bullet.setForce( SPEED*2 * Mathf.Sin(r), SPEED*2 * Mathf.Cos(r), 0);
+		GameObjectPool pool = GameObjectPool.GetPool("HappyBullets");
+		var force = new Vector3(SPEED*15 * Mathf.Sin(r), SPEED*15 * Mathf.Cos(r), 0);
+		GameObject instance = pool.GetInstance(transform.position + force * 5);
+		var bullet = instance.GetComponent<Bullet>();
+		bullet.Force = force;
+		bullet.type = type;
 	}
 }

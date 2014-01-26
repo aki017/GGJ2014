@@ -2,24 +2,51 @@
 using System.Collections;
 
 public class Bullet : MonoBehaviour {
-	private float dx = 0;
-	private float dy = 0;
-	private Vector3 dv;
-
-	public void setForce(float x,float y,float z) {
-		dx = x;
-		dy = y;
-		dv = new Vector3(dx,dy,0);
+	public enum BulletType{
+		BLACK,WHITE
 	}
-	// Use this for initialization
-	void Start () {
-		dv = new Vector3(dx,dy, 0);
-		transform.Translate(dv*4);
 
-	}
-	
+	public Vector3 Force;
+	public BulletType type = BulletType.BLACK;
+	public GameObject HitEffect;
+	private GameObjectPool _pool;
+
 	// Update is called once per frame
 	void Update () {
-		transform.Translate(dv);
+		transform.Translate(Force);
+		if (!inStage() && renderer.enabled)
+		{
+			_pool.ReleaseInstance(gameObject);
+		}
+	}
+
+	void Hit () {
+		_pool.ReleaseInstance(gameObject);
+		GameObjectPool pool = GameObjectPool.GetPool("HitEffect");
+		pool.GetInstance(transform.position);
+	}
+
+	
+
+	void OnPoolCreate(GameObjectPool pool)
+	{
+		_pool = pool;
+		
+		renderer.enabled = true;
+	}
+	
+	void OnPoolRelease()
+	{
+		renderer.enabled = false;
+	}
+	
+	bool inStage()
+	{
+		var x = transform.position.x;
+		var y = transform.position.y;
+		return x > 0
+			&& y > 0
+				&& x < 1024*3
+				&& y < 768*3;
 	}
 }
