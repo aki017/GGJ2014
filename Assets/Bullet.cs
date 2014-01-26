@@ -20,9 +20,10 @@ public class Bullet : MonoBehaviour {
 		}
 	}
 
-	void Hit () {
+	void Hit (bool flag) {
+		Debug.Log (flag);
 		_pool.ReleaseInstance(gameObject);
-		GameObjectPool pool = GameObjectPool.GetPool("HitEffect");
+		GameObjectPool pool = GameObjectPool.GetPool(flag ? "DamageEffect" : "NoDamageEffect");
 		pool.GetInstance(transform.position);
 	}
 

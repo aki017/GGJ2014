@@ -16,11 +16,6 @@ public class Player : MonoBehaviour {
 	private Bullet.BulletType type = Bullet.BulletType.BLACK;
 	public GameObject LifePrefab;
 
-	// On Editor
-	public GameObject bulletPrefab_black = null;
-	public GameObject bulletPrefab_white = null;
-	public GameObject bulletsField = null;
-
 	void Awake() {
 		var obj = Instantiate(LifePrefab) as GameObject;
 		obj.transform.parent = this.transform;
@@ -74,7 +69,7 @@ public class Player : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other){
 		if(other.tag == "Bullet") {
-			other.gameObject.SendMessage("Hit");
+			other.gameObject.SendMessage("Hit", other.gameObject.GetComponent<Bullet>().type == type);
 			HitBullet();
 		}
 	}
@@ -106,7 +101,7 @@ public class Player : MonoBehaviour {
 			bulletFlag += 1;
 		}
 		if(bulletFlag % 8 != 0) return;
-		GameObjectPool pool = GameObjectPool.GetPool("HappyBullets");
+		GameObjectPool pool = GameObjectPool.GetPool(type==Bullet.BulletType.BLACK ? "SadBullet" : "HappyBullet");
 		var force = new Vector3(SPEED*15 * Mathf.Sin(r), SPEED*15 * Mathf.Cos(r), 0);
 		GameObject instance = pool.GetInstance(transform.position + force * 5);
 		var bullet = instance.GetComponent<Bullet>();
