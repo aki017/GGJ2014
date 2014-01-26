@@ -37,7 +37,7 @@ public class Player : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		var i = (name == "Player1") ? XboxInput.i : KeyboardInput.i;
+		var i = (name != "Player1") ? XboxInput.i : KeyboardInput.i;
 		i.Registor(InputInterface.Type.UP,MoveUp);
 		i.Registor(InputInterface.Type.DOWN,MoveDown);
 		i.Registor(InputInterface.Type.LEFT,MoveLeft);
@@ -56,7 +56,7 @@ public class Player : MonoBehaviour {
 			alreadyDead = true;
 			StartCoroutine(Death());
 		}else{
-			face.transform.eulerAngles = new Vector3(0,0,-rigidbody2D.velocity.x);
+			face.transform.eulerAngles = new Vector3(0,0,Mathf.LerpAngle(face.transform.eulerAngles.z, -rigidbody2D.velocity.x+ (type==Bullet.BulletType.BLACK?0:180), Time.deltaTime*10));
 			AddForce();
 			RotateTarget();
 		}
@@ -72,7 +72,7 @@ public class Player : MonoBehaviour {
 			face.GetComponent<SpriteRenderer>().sprite = s;
 			yield return new WaitForSeconds(0.2f);
 		}
-		Application.LoadLevel ("END");
+		Application.LoadLevel("Main");
 	}
 	
 	void AddForce () {
@@ -161,7 +161,7 @@ public class Player : MonoBehaviour {
 	}
 	void OnHeal(float v)
 	{
-		Life = Life + v;
+		Life = Life + v/10000;
 		GameObjectPool pool = GameObjectPool.GetPool("NoDamageEffect");
 		pool.GetInstance(transform.position);
 	}
